@@ -6,9 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./demo-comp1.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
-export class DemoComp1Component extends HTMLElement {
-  // Adding the hooks here doesnt seem to work
-  connectedCallback() {
-    console.log('Element connected to the DOM!');
-  }
-}
+export class DemoComp1Component {}
