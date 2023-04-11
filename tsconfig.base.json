@@ -1,0 +1,36 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "target": "es6",
+    "module": "es2020",
+    "lib": [
+      "es2017",
+      "es2020",
+      "dom",
+      "es2018.promise",
+      "esnext.asynciterable"
+    ],
+    "typeRoots": ["types", "node_modules/@types"],
+    "types": ["node", "jest"],
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {}
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": "off",
+    "enableIvy": true
+  },
+  "exclude": ["node_modules", "tmp", "dist", "cypress", "./cypress.config.ts"]
+}
