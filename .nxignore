@@ -1,0 +1,5 @@
+## Since Nx v15.0.1, Nx will also include folders with `package.json`/`project.json` in its graph of projects.
+## Ignore them by adding the directory to `.nxignore`.
+## See https://github.com/nrwl/nx/releases/tag/15.0.1
+
+/.examples
