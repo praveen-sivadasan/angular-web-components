@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'angular-web-components-demo-comp1',
@@ -6,8 +6,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./demo-comp1.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
-export class DemoComp1Component implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class DemoComp1Component extends HTMLElement {
+  // Adding the hooks here doesnt seem to work
+  connectedCallback() {
+    console.log('Element connected to the DOM!');
+  }
 }
