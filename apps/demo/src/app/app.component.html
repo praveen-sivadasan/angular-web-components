@@ -1,10 +1,15 @@
-<br>***************************************<br>
-<div style="margin-left: 15px;padding: 20px;">DEMO APP</div>
-<br>***************************************<br>
-<br>
-<br>
-<div class="box">
-  <demo-wc-1></demo-wc-1>
-</div>
-<br>
-<br>
+<br />***************************************<br />
+<div style="margin-left: 15px; padding: 20px">DEMO APP</div>
+<br />***************************************<br />
+<br />
+<br />
+All Message In Channel - {{ channelMessage || "_EMPTY_" }}
+<input type="button" value="Change WC1 data" (click)="changeData()"/>
+<br />
+<br />
+<demo-wc-1 #demoWC1 data="this-is-a-test-data-from-demo-app"></demo-wc-1>
+<br />
+<br />
+<demo-wc-2 data="this-is-a-test-data2-from-demo-app"></demo-wc-2>
+<br />
+<br />

@@ -8,6 +8,11 @@
     "build:wc": "npm run build:app --project=demo-wc && cat ./dist/apps/demo-wc/runtime.js ./dist/apps/demo-wc/polyfills.js ./dist/apps/demo-wc/main.js > apps/demo/src/assets/my-wc.js",
     "postinstall": "ngcc --properties es2020 browser module main"
   },
+  "engines": {
+    "node": "16.18.0",
+    "npm": "8.19.2",
+    "angular": "14.2.12"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~14.2.11",

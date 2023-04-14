@@ -1,10 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { CommunicationServiceToken } from '@core-lib/config/communication-service.config';
+import type { ChannelMessage } from '@core-lib/interface/channel-message';
+import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
 
 @Component({
-  selector: 'angular-web-components-root',
+  selector: 'app-demo-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'demo';
+  public channelMessage: string = '';
+
+  @ViewChild('demoWC1', { static: true })
+  titleElement: ElementRef;
+
+  constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService) {
+    console.log('AppComponent constructor');
+    this.communicationService.allMessageListener$().subscribe((data: ChannelMessage) => {
+      this.channelMessage = JSON.stringify(data);
+      console.log('AppComponent');
+      console.log(data);
+    });
+  }
+
+  public changeData() {
+    this.titleElement.nativeElement.makeCall.emit('Make a call');
+  }
 }
