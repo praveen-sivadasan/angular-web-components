@@ -4,7 +4,9 @@
 <br />
 <br />
 All Message In Channel - {{ channelMessage || "_EMPTY_" }}
-<input type="button" value="Change WC1 data" (click)="changeData()"/>
+<input type="button" value="WC1 makeCall" (click)="makeCall()"/>
+<input type="button" value="WC1 cancelCall" (click)="cancelCall()"/>
+
 <br />
 <br />
 <demo-wc-1 #demoWC1 data="this-is-a-test-data-from-demo-app"></demo-wc-1>
