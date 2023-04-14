@@ -6,6 +6,16 @@
 
 ## Understand this workspace
 
+Package version used by this project
+* node: "16.18.0",
+* npm: "8.19.2",
+* angular: "14.2.12"
+
+Run `npm ci` to install dependencies
+Run `npm run build:wc` to build web components and bundle
+Run `npm run serve:demo` to serve the demo app with web components
+
+Note
 Run `nx graph` to see a diagram of the dependencies of the projects.
 
 ## Remote caching
