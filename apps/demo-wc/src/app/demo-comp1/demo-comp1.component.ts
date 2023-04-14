@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { CommunicationServiceToken } from '@core-lib/config/communication-service.config';
 import type { ChannelMessage } from '@core-lib/interface/channel-message';
 import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-web-components-demo-comp1',
@@ -17,13 +18,21 @@ export class DemoComp1Component implements OnInit {
   @Input()
   makeCall = new EventEmitter<any>();
 
-  public testData: string;
+  @Input()
+  get cancelCall(): (data) => void {
+    return (data) => {
+      this.cancelCall$.next(data);
+    };
+  }
+
+  public testData: string = 'DemoComp1Component_Message_Test';
   public channelMessage = 'N/A';
+  private cancelCall$: Subject<any> = new Subject<any>();
 
   constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService, private cdr: ChangeDetectorRef) {
     console.log('DemoComp1Component constructor');
-    this.testData = 'DemoComp1Component_Message_Test';
 
+    this.registerCancelCallListener();
     this.communicationService.messageListener$().subscribe((data: ChannelMessage) => {
       console.log('DemoComp1Component');
       console.log(data);
@@ -45,5 +54,11 @@ export class DemoComp1Component implements OnInit {
         message: this.testData,
       },
     } as ChannelMessage);
+  }
+
+  private registerCancelCallListener() {
+    this.cancelCall$.subscribe((data) => {
+      console.log('cancelCall fn invoked  in DemoComp1Component with data - ' + JSON.stringify(data));
+    });
   }
 }

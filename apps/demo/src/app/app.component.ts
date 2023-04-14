@@ -23,7 +23,11 @@ export class AppComponent {
     });
   }
 
-  public changeData() {
+  public makeCall() {
     this.titleElement.nativeElement.makeCall.emit('Make a call');
+  }
+
+  public cancelCall() {
+    this.titleElement.nativeElement.cancelCall('Cancel call data');
   }
 }
