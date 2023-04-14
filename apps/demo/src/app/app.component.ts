@@ -12,7 +12,7 @@ export class AppComponent {
   public channelMessage: string = '';
 
   @ViewChild('demoWC1', { static: true })
-  titleElement: ElementRef;
+  demoWC1Ele: ElementRef;
 
   constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService) {
     console.log('AppComponent constructor');
@@ -24,10 +24,10 @@ export class AppComponent {
   }
 
   public makeCall() {
-    this.titleElement.nativeElement.makeCall.emit('Make a call');
+    this.demoWC1Ele.nativeElement.makeCall.emit('Make a call');
   }
 
   public cancelCall() {
-    this.titleElement.nativeElement.cancelCall('Cancel call data');
+    this.demoWC1Ele.nativeElement.cancelCall('Cancel call data');
   }
 }
