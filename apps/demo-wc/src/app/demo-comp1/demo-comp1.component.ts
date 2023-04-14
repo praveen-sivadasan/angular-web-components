@@ -58,7 +58,7 @@ export class DemoComp1Component implements OnInit {
 
   private registerCancelCallListener() {
     this.cancelCall$.subscribe((data) => {
-      console.log('cancelCall fn invoked  in DemoComp1Component');
+      console.log('cancelCall fn invoked  in DemoComp1Component with data - ' + JSON.stringify(data));
     });
   }
 }
