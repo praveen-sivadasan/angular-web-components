@@ -1,1 +1,17 @@
-<p>demo-comp1 works!</p>
+<div class="box">
+  <div>Web component 1</div>
+  <div class="message">
+    Web component 1 Message Channel<br><br>
+    {{channelMessage}}
+  </div>
+  <div class="wc-grid">
+    <div class="first">Test data from consumer - <br>{{ data }}</div>
+    <div>
+      Publish message - {{ testData }}
+      <br>
+      <div>
+        <input type="button" value="Publish" (click)="publishMessage()" />
+      </div>
+    </div>
+  </div>
+</div>
