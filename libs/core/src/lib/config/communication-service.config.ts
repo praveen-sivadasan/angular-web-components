@@ -8,6 +8,6 @@ export const CommunicationServiceToken = new InjectionToken<ICommunicationServic
   providedIn: 'any',
   factory: () => {
     console.log('EaasWebCompCommunicationServiceToken');
-    return new BroadcastMessageService(BroadcastChannelName, new NgZone({ enableLongStackTrace: true }));
+    return new BroadcastMessageService(new NgZone({ enableLongStackTrace: true }));
   },
 });

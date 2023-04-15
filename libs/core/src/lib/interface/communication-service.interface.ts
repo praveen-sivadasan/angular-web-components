@@ -25,13 +25,7 @@ export interface ICommunicationService {
    * Returns an observable to listen to messages relevant to the component in context
    * This is the recommended function for this purpose in web components.
    */
-  messageListener$(): Observable<ChannelMessage>;
-
-  /**
-   * Returns an observable to listen to all messages in channel
-   * Only to be used in special scenarios and orchestration layer.
-   */
-  allMessageListener$(): Observable<ChannelMessage>;
+  getMessages$(): Observable<ChannelMessage>;
 
   /**
    * Disconnect existing message channel

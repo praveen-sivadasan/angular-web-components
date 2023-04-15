@@ -1,7 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { CommunicationServiceToken } from '@core-lib/config/communication-service.config';
-import type { ChannelMessage } from '@core-lib/interface/channel-message';
-import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-demo-root',
@@ -9,18 +6,13 @@ import { ICommunicationService } from '@core-lib/interface/communication-service
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public channelMessage: string = '';
-
   @ViewChild('demoWC1', { static: true })
   demoWC1Ele: ElementRef;
 
-  constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService) {
+  public hideWC2 = false;
+
+  constructor() {
     console.log('AppComponent constructor');
-    this.communicationService.allMessageListener$().subscribe((data: ChannelMessage) => {
-      this.channelMessage = JSON.stringify(data);
-      console.log('AppComponent');
-      console.log(data);
-    });
   }
 
   public makeCall() {

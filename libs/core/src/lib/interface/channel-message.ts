@@ -1,13 +1,8 @@
 export interface ChannelMessage {
   /**
-   * Channel id
+   * Channel name
    */
-  channelId: string;
-
-  /**
-   * A unique identifier for the message. For ex: OnCallInitiate, OnCallCancel etc..
-   */
-  id: string;
+  channelName: string;
 
   /**
    * Message data object

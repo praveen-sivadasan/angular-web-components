@@ -11,7 +11,7 @@ export class CommComp1Component {
   public channelMessage: string;
   constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService) {
     console.log('CommComp1Component constructor');
-    this.communicationService.messageListener$().subscribe((data: ChannelMessage) => {
+    this.communicationService.getMessages$().subscribe((data: ChannelMessage) => {
       console.log('CommComp1Component');
       console.log(data);
       this.channelMessage = JSON.stringify(data);
