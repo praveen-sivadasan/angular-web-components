@@ -3,6 +3,7 @@ import type { Observable } from 'rxjs';
 import { Subject, tap } from 'rxjs';
 import type { ChannelMessage } from '../../interface/channel-message';
 import type { ICommunicationService } from '../../interface/communication-service.interface';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * A communication channel between web components using Broadcast Channel API.
@@ -22,8 +23,7 @@ export class BroadcastMessageService implements ICommunicationService {
   }
 
   establishMessageChannel() {
-    // TODO to update channel logic
-    const channelName = Math.random().toString();
+    const channelName = uuidv4();
     this.broadcaster = new BroadcastChannel(channelName);
     this.messageReceiver = new BroadcastChannel(channelName);
   }
