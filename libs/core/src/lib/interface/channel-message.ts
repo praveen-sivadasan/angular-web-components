@@ -1,8 +1,8 @@
 export interface ChannelMessage {
   /**
-   * Channel name
+   * Channel id
    */
-  channelName: string;
+  channelId: string;
 
   /**
    * Message data object

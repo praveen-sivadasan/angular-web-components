@@ -28,6 +28,12 @@ export interface ICommunicationService {
   getMessages$(): Observable<ChannelMessage>;
 
   /**
+   * Returns an observable to listen to all messages being emitted by message channel
+   * This is the recommended function in orchestration layer.
+   */
+  getAllMessages$(): Observable<ChannelMessage>;
+
+  /**
    * Disconnect existing message channel
    */
   disconnectMessageChannel();

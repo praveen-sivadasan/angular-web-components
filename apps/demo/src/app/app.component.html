@@ -3,13 +3,21 @@
 <br />***************************************<br />
 <br />
 <br />
+<div class="message">
+ All messages in Message Channel<br><br>
+  {{channelMessage}}
+</div>
+<br>
+<br>
 <input type="button" value="WC1 makeCall" (click)="makeCall()"/>
 <input type="button" value="WC1 cancelCall" (click)="cancelCall()"/>
 <input type="button" [value]="(this.hideWC2 ? 'Show ' : 'Hide ') + 'WC2'" (click)="this.hideWC2=!this.hideWC2"/>
 
 <br />
 <br />
-<demo-wc-1 #demoWC1 data="this-is-a-test-data-from-demo-app"></demo-wc-1>
+<demo-wc-1 #demoWC1 data="this-is-a-test-data-from-demo-app">
+<!--  <demo-wc-2 slot="slot-block-1"></demo-wc-2>-->
+</demo-wc-1>
 <br />
 <br />
 <div *ngIf="!hideWC2">

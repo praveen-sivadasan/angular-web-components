@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Injector, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { CommunicationServiceToken } from '@core-lib/config/communication-service.config';
 import type { ChannelMessage } from '@core-lib/interface/channel-message';
 import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
@@ -16,9 +16,10 @@ export class DemoComp2Component implements OnDestroy {
   public testData: string;
   public channelMessage = 'N/A';
 
-  constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService) {
+  constructor(@Inject(CommunicationServiceToken) public communicationService: ICommunicationService, private injector: Injector) {
     console.log('DemoComp2Component constructor');
     this.testData = 'DemoComp2Component_Message_Test';
+    console.log(injector);
 
     this.communicationService.getMessages$().subscribe((data: ChannelMessage) => {
       console.log('DemoComp2Component');
