@@ -1,6 +1,6 @@
 import type { OnDestroy, OnInit } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, ViewEncapsulation } from '@angular/core';
-import { CommunicationServiceToken } from '@core-lib/config/communication-service.config';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, ViewEncapsulation } from '@angular/core';
+import { CommunicationServiceToken, CommunicationServiceTokenProvider } from '@core-lib/config/communication-service.config';
 import type { ChannelMessage } from '@core-lib/interface/channel-message';
 import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
 import { Subject } from 'rxjs';
@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
   selector: 'app-web-components-demo-comp1',
   templateUrl: './demo-comp1.component.html',
   styleUrls: ['./demo-comp1.component.scss'],
+  providers: [CommunicationServiceTokenProvider],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class DemoComp1Component implements OnInit, OnDestroy {
@@ -62,6 +63,6 @@ export class DemoComp1Component implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.communicationService.disconnectMessageChannel();
+    console.log('DemoComp1Component destroyed');
   }
 }

@@ -1,11 +1,12 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { CommunicationServiceToken } from '../../../../libs/core/src/lib/config/communication-service.config';
-import { ICommunicationService } from '../../../../libs/core/src/lib/interface/communication-service.interface';
-import { ChannelMessage } from '../../../../libs/core/src/lib/interface/channel-message';
+import type { ChannelMessage } from '@core-lib/interface/channel-message';
+import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
+import { CommunicationServiceToken, CommunicationServiceTokenProvider } from '@core-lib/config/communication-service.config';
 
 @Component({
   selector: 'app-demo-root',
   templateUrl: './app.component.html',
+  providers: [CommunicationServiceTokenProvider],
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
