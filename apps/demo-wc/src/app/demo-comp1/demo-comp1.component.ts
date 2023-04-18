@@ -1,6 +1,6 @@
-import type { OnInit } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, ViewEncapsulation } from '@angular/core';
-import { CommunicationServiceToken } from '@core-lib/config/communication-service.config';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, ViewEncapsulation } from '@angular/core';
+import { CommunicationServiceToken, CommunicationServiceTokenProvider } from '@core-lib/config/communication-service.config';
 import type { ChannelMessage } from '@core-lib/interface/channel-message';
 import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
 import { Subject } from 'rxjs';
@@ -9,9 +9,10 @@ import { Subject } from 'rxjs';
   selector: 'app-web-components-demo-comp1',
   templateUrl: './demo-comp1.component.html',
   styleUrls: ['./demo-comp1.component.scss'],
+  providers: [CommunicationServiceTokenProvider],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
-export class DemoComp1Component implements OnInit {
+export class DemoComp1Component implements OnInit, OnDestroy {
   @Input()
   data: any;
 
@@ -33,11 +34,10 @@ export class DemoComp1Component implements OnInit {
     console.log('DemoComp1Component constructor');
 
     this.registerCancelCallListener();
-    this.communicationService.messageListener$().subscribe((data: ChannelMessage) => {
+    this.communicationService.getMessages$().subscribe((data: ChannelMessage) => {
       console.log('DemoComp1Component');
       console.log(data);
       this.channelMessage = JSON.stringify(data) || 'N/A';
-      this.cdr.detectChanges();
     });
   }
 
@@ -60,5 +60,9 @@ export class DemoComp1Component implements OnInit {
     this.cancelCall$.subscribe((data) => {
       console.log('cancelCall fn invoked  in DemoComp1Component with data - ' + JSON.stringify(data));
     });
+  }
+
+  public ngOnDestroy() {
+    console.log('DemoComp1Component destroyed');
   }
 }

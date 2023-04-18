@@ -47,6 +47,17 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "pre-prd": {
+          "aot": true,
+          "buildOptimizer": true,
+          "commonChunk": false,
+          "extractLicenses": false,
+          "namedChunks": false,
+          "optimization": true,
+          "outputHashing": "none",
+          "sourceMap": false,
+          "vendorChunk": false
         }
       },
       "defaultConfiguration": "production"
