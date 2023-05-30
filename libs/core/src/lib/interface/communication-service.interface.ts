@@ -1,9 +1,10 @@
 import type { Observable } from 'rxjs';
 import type { ChannelMessage } from './channel-message';
+import type { MessageType } from './message-type';
 
 export interface ICommunicationService {
   /**
-   * Create/Establish a message channel for web components
+   * Create/establish a message channel for communication
    */
   establishMessageChannel();
 
@@ -12,29 +13,30 @@ export interface ICommunicationService {
    * communication channel
    * @param message
    */
-  publishRequest(message: ChannelMessage);
+  publishRequestMessage(message: MessageType);
 
   /**
    * Function to be used by the orchestration layer to send a message back as a response to
-   * the request message.
+   * the request message
    * @param message
    */
-  publishResponse(message: ChannelMessage);
+  publishResponseMessage(message: ChannelMessage);
 
   /**
-   * Returns an observable to listen to messages relevant to the component in context
-   * This is the recommended function for this purpose in web components.
+   * Returns an observable to listen to messages in a specific channel with id
+   * Function to be used in web components
    */
   getMessages$(): Observable<ChannelMessage>;
 
   /**
-   * Returns an observable to listen to all messages being emitted by message channel
-   * This is the recommended function in orchestration layer.
+   * Returns an observable to listen to all messages in channel
+   * Function for orchestration layer or any other special scenarios
    */
   getAllMessages$(): Observable<ChannelMessage>;
 
   /**
-   * Disconnect existing message channel
+   * Disconnect/Close existing message channel if any
+   * Important Note: After a channel is created it is mandatory to close the channel when its use is complete
    */
   disconnectMessageChannel();
 }

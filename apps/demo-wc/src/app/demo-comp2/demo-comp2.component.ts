@@ -2,6 +2,7 @@ import { Component, Inject, Input, OnDestroy, ViewEncapsulation } from '@angular
 import { CommunicationServiceToken, CommunicationServiceTokenProvider } from '@core-lib/config/communication-service.config';
 import type { ChannelMessage } from '@core-lib/interface/channel-message';
 import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
+import { MessageType } from '../../../../../libs/core/src/lib/interface/message-type';
 
 @Component({
   selector: 'app-web-components-demo-comp2',
@@ -29,11 +30,12 @@ export class DemoComp2Component implements OnDestroy {
   }
 
   public publishMessage() {
-    this.communicationService.publishRequest({
+    this.communicationService.publishRequestMessage({
       data: {
         message: this.testData,
       },
-    } as ChannelMessage);
+      type: 'DemoComp2ComponentMessage'
+    } as MessageType);
   }
 
   public ngOnDestroy() {

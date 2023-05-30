@@ -4,6 +4,7 @@ import { CommunicationServiceToken, CommunicationServiceTokenProvider } from '@c
 import type { ChannelMessage } from '@core-lib/interface/channel-message';
 import { ICommunicationService } from '@core-lib/interface/communication-service.interface';
 import { Subject } from 'rxjs';
+import { MessageType } from '../../../../../libs/core/src/lib/interface/message-type';
 
 @Component({
   selector: 'app-web-components-demo-comp1',
@@ -49,11 +50,12 @@ export class DemoComp1Component implements OnInit, OnDestroy {
   }
 
   public publishMessage() {
-    this.communicationService.publishRequest({
+    this.communicationService.publishRequestMessage({
       data: {
         message: this.testData,
       },
-    } as ChannelMessage);
+      type: 'DemoComp1ComponentMessage'
+    } as MessageType);
   }
 
   private registerCancelCallListener() {
