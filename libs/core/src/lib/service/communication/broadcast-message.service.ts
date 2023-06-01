@@ -1,138 +1,90 @@
-import { Injectable, NgZone, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
+import { NgZone } from '@angular/core';
 import type { Observable } from 'rxjs';
-import { filter, Subject, tap } from 'rxjs';
+import { filter, Subject } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import type { ChannelMessage } from '../../interface/channel-message';
 import type { ICommunicationService } from '../../interface/communication-service.interface';
-import { v4 as uuidv4 } from 'uuid';
-import { BroadcastChannelName } from '../../config/communication-service.config';
-import { IClientStorageService } from '../../interface/client-storage-service.interface';
+import type { MessageType } from '../../interface/message-type';
+
+/* eslint-disable no-console */
 
 /**
  * A communication channel between web components using Broadcast Channel API.
  */
-@Injectable()
-export class BroadcastMessageService implements ICommunicationService, OnDestroy {
+export class BroadcastMessageService implements ICommunicationService {
   private broadcaster: BroadcastChannel;
   private messageReceiver: BroadcastChannel;
 
   private readonly channelMessages$ = new Subject<ChannelMessage>();
   private channelId: string;
-  private renderer: Renderer2;
 
-  constructor(
-    private broadcastChannelName: string,
-    private rendererFactory: RendererFactory2,
-    private ngZone: NgZone,
-    private storageService: IClientStorageService,
-  ) {
-    console.log('%c >>>> BroadcastMessageService constructor', 'color: blue');
-    this.establishMessageChannel();
-    console.log('%c communicationChannelId - ' + this.channelId, 'color: orange');
-    this.startBroadcastChannelListening();
-    this.setupWindowCloseListener(rendererFactory);
+  constructor(private readonly broadcastChannelName: string, private readonly ngZone: NgZone) {
+    this.connectToChannel();
+    this.startMessageChannelListening();
+    console.log('>>>>>>>. channel id', this.channelId);
   }
 
-  establishMessageChannel() {
-    this.channelId = uuidv4();
-    this.storageService.set(BroadcastChannelName, (this.storageService.get(BroadcastChannelName) || 0) + 1);
-    this.broadcaster = new BroadcastChannel(this.broadcastChannelName);
-    this.messageReceiver = new BroadcastChannel(this.broadcastChannelName);
+  establishMessageChannel(): void {
+    throw new Error('Not implemented for this service, already handled by constructor.');
   }
 
-  publishRequest(message: ChannelMessage): void {
-    console.log('vvvvv');
-    console.log('%c in publishRequest() -> communicationChannelId - ' + this.channelId, 'color: orange');
-    console.log(message);
-    console.log('^^^^^');
+  publishRequestMessage(message: MessageType): void {
+    const channelMessage = {
+      ...message,
+      channelId: this.channelId,
+    };
+    this.broadcaster.postMessage(channelMessage);
+  }
+
+  publishResponseMessage(message: ChannelMessage): void {
     if (!message.channelId) {
-      message.channelId = this.channelId;
+      throw new Error(`Response message from orchestration layer is missing 
+      channel id. Please fill the channel id from the request object.`);
     }
     this.broadcaster.postMessage(message);
-  }
-
-  publishResponse(message: ChannelMessage): void {
-    if (!message.channelId) {
-      throw new Error('Response message from orchestration layer is missing channel id');
-    }
-    this.broadcaster.postMessage(message);
-  }
-
-  getMessages$(): Observable<ChannelMessage> {
-    console.log('%c in getMessages$() -> communicationChannelId - ' + this.channelId, 'color: orange');
-    return this.channelMessages$.asObservable().pipe(
-      tap((d) => {
-        console.log('vvvvv');
-        console.log('%c getMessages$() - tap -> communicationChannelId - ' + this.channelId, 'color: orange');
-        console.log(d);
-        console.log('^^^^^');
-      }),
-      filter((message: ChannelMessage) => message.channelId === this.channelId),
-    );
-  }
-
-  getAllMessages$(): Observable<ChannelMessage> {
-    console.log('%c in getAllMessages$() -> communicationChannelId - ' + this.channelId, 'color: orange');
-    return this.channelMessages$.asObservable().pipe(
-      tap((d) => {
-        console.log('vvvvv');
-        console.log('%c getAllMessages$() - tap -> communicationChannelId - ' + this.channelId, 'color: orange');
-        console.log(d);
-        console.log('^^^^^');
-      }),
-    );
-  }
-
-  disconnectMessageChannel() {
-    throw new Error('Not required to call this function from outside the service.');
-    // console.log('BroadcastMessageService disconnectMessageChannel');
-    // this.cleanupBroadcastChannelConnection();
   }
 
   /**
-   * Open issue ngOnDestroy not called - https://github.com/angular/angular/issues/14818
+   * All users of this fn should explicitly unsubscribe
    */
-  public ngOnDestroy() {
-    console.log('BroadcastMessageService destroyed');
-    this.cleanupBroadcastChannelConnection();
+  getMessages$(): Observable<ChannelMessage> {
+    return this.channelMessages$.asObservable().pipe(filter((message: ChannelMessage) => message.channelId === this.channelId));
+  }
+
+  /**
+   * All users of this fn should explicitly unsubscribe
+   */
+  getAllMessages$(): Observable<ChannelMessage> {
+    return this.channelMessages$.asObservable();
+  }
+
+  /**
+   * Current architecture uses only 1 channel API throughout browser.
+   * Hence cleanup not required.
+   */
+  disconnectMessageChannel() {
+    throw new Error('Not required to call this function from outside the service.');
   }
 
   /**
    * Private fns
    */
 
-  private startBroadcastChannelListening() {
-    console.log('%c in registerBroadcastChannelMessages -> communicationChannelId - ' + this.channelId, 'color: orange');
+  private startMessageChannelListening() {
     this.messageReceiver.onmessage = (event: MessageEvent) => {
-      console.log('vvvvv');
-      console.log('%c onmessage registerBroadcastChannelMessages -> communicationChannelId - ' + this.channelId, 'color: orange');
-      console.log(event);
-      console.log('^^^^^');
       this.ngZone.run(() => {
         this.channelMessages$.next(event.data);
       });
-      // this.channelMessages$.next(event.data);
     };
 
     this.messageReceiver.onmessageerror = (event: MessageEvent) => {
-      console.log('>>>> error');
-      console.log(event);
+      console.error('Error in message channel', event);
     };
   }
 
-  private setupWindowCloseListener(rendererFactory: RendererFactory2) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-    this.renderer.listen('window', 'beforeunload', (event) => {
-      alert('Closing browser');
-      this.storageService.remove(BroadcastChannelName);
-    });
-  }
-
-  private cleanupBroadcastChannelConnection() {
-    this.storageService.set(BroadcastChannelName, (this.storageService.get(BroadcastChannelName) || 0) - 1);
-    if (!this.storageService.get(BroadcastChannelName) || this.storageService.get(BroadcastChannelName) <= 0) {
-      alert('Closing channel from onDestroy');
-      this.broadcaster.close();
-      this.messageReceiver.close();
-    }
+  private connectToChannel(): void {
+    this.channelId = uuidv4();
+    this.broadcaster = new BroadcastChannel(this.broadcastChannelName);
+    this.messageReceiver = new BroadcastChannel(this.broadcastChannelName);
   }
 }
