@@ -13,7 +13,7 @@ Package version used by this project
 
 Run project locally
 * Run `npm ci` to install dependencies
-* Run `npm run build:wc` to build web components and bundle
+* Run `npm run build:wc` to build `demo-wc` web component project and bundle it into `apps/demo/src/assets/my-wc.js`
 * Run `npm run serve:demo` to serve the demo app with web components
 
 Note
